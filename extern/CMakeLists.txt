@@ -1,0 +1,22 @@
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/CheckPackages.cmake)
+
+if(NOT SDL_FOUND)
+  set(SDL_VIDEO ON CACHE BOOL "" FORCE)
+  set(SDL_OPENGL ON CACHE BOOL "" FORCE)
+  set(SDL_OPENGLES ON CACHE BOOL "" FORCE)
+  set(SDL_VIDEO_OPENGL ON CACHE BOOL "" FORCE)
+  set(SDL_VIDEO_X11 ON CACHE BOOL "" FORCE)
+  set(SDL_VIDEO_OPENGL_GLX ON CACHE BOOL "" FORCE)
+  set(SDL_VIDEO_VULKAN OFF CACHE BOOL "" FORCE)
+  add_subdirectory(SDL)
+endif()
+
+if(NOT SDL_TTF_FOUND)
+  add_subdirectory(SDL_ttf)
+endif()
+
+if(NOT SDL_IMAGE_FOUND)
+  add_subdirectory(SDL_image)
+endif()
+
+add_subdirectory(lua51)
