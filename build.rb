@@ -8,6 +8,7 @@ end
 option_termux = false
 option_run = false
 option_asan = false
+option_gdb = false
 
 ARGV.each do |arg|
   case arg
@@ -17,6 +18,8 @@ ARGV.each do |arg|
       option_run = true
     when "--asan", "-as"
       option_asan = true
+    when "--gdb", "-g"
+      option_gdb = true
   end
 end
 
@@ -33,11 +36,15 @@ run("cmake --build build")
 if option_run
   if not option_termux
     run("chmod +x build/hate2d")
-    run("./build/hate2d")
+    if option_gdb
+      run("gdb ./build/hate2d")
+    else
+      run("./build/hate2d")
+    end
   else
     HOME = ENV["HOME"]
     ENV["DISPLAY"] = ":0"
-    
+
     FileUtils.mkdir_p("#{HOME}/temp/c/hate2d/")
     FileUtils.cp("build/hate2d", "#{HOME}/temp/c/hate2d/hate2d")
     
@@ -59,7 +66,11 @@ if option_run
     exec_path = File.expand_path("~/temp/c/hate2d/#{EXECUTABLE}")
     File.chmod(0755, exec_path)
   
-    system(exec_path)
+    if option_gdb
+      system("gdb #{exec_path}")
+    else
+      system(exec_path)
+    end
     cleanup(x11_pid)
   end
 end
