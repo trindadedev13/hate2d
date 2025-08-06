@@ -27,6 +27,11 @@ bool hate2d_state_initgbl() {
   }
 
   gbl_state = malloc(sizeof(struct hate2d_state));
+  if (!gbl_state) {
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+                 "Failed to allocate memory for global state: %s\n", SDL_GetError());
+    return false;
+  }
 
   // calculate width and height based on display
   const SDL_DisplayID display_id = SDL_GetPrimaryDisplay();
