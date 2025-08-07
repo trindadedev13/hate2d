@@ -1,5 +1,7 @@
 #include "hate2d/lua.h"
 
+#include <stdint.h>
+
 #include <SDL3/SDL.h>
 
 void hate2d_lua_ibegin(lua_State* L) {
@@ -13,6 +15,31 @@ void hate2d_lua_iend(lua_State* L, char* name) {
   // hate2d["name"] = name
   lua_setfield(L, -2, name);
   // pop easy 2d
+  lua_pop(L, 1);
+}
+
+void hate2d_lua_getcolor(lua_State* L,
+                         int wh,
+                         uint8_t* r,
+                         uint8_t* g,
+                         uint8_t* b,
+                         uint8_t* a) {
+  luaL_checktype(L, wh, LUA_TTABLE);
+
+  lua_rawgeti(L, wh, 1);
+  *r = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+
+  lua_rawgeti(L, wh, 2);
+  *g = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+
+  lua_rawgeti(L, wh, 3);
+  *b = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+
+  lua_rawgeti(L, wh, 4);
+  *a = lua_tonumber(L, -1);
   lua_pop(L, 1);
 }
 

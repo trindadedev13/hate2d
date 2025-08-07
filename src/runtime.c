@@ -17,20 +17,13 @@ int hate2d_lua_runtime_delay(lua_State* L) {
 }
 
 void hate2d_lua_runtime_register(lua_State* L) {
-  {
-    hate2d_lua_ibegin(L);
+  hate2d_lua_ibegin(L);
 
-    lua_pushcfunction(L, hate2d_lua_runtime_stop);
-    lua_setfield(L, -2, "stop");
+  lua_pushcfunction(L, hate2d_lua_runtime_stop);
+  lua_setfield(L, -2, "stop");
 
-    hate2d_lua_iend(L, "runtime");
-  }
-  {
-    hate2d_lua_ibegin(L);
+  lua_pushcfunction(L, hate2d_lua_runtime_delay);
+  lua_setfield(L, -2, "delay");
 
-    lua_pushcfunction(L, hate2d_lua_runtime_delay);
-    lua_setfield(L, -2, "delay");
-
-    hate2d_lua_iend(L, "runtime");
-  }
+  hate2d_lua_iend(L, "runtime");
 }

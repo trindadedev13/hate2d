@@ -9,7 +9,9 @@
 #include "hate2d/state.h"
 
 int main() {
-  hate2d_state_initgbl();
+  if (!hate2d_state_initgbl()) {
+    return 1;
+  }
   hate2d_lua_register_bindings(gbl_state->lua_state);
 
   if (luaL_dofile(gbl_state->lua_state, "main.lua")) {

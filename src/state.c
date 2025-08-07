@@ -29,7 +29,8 @@ bool hate2d_state_initgbl() {
   gbl_state = malloc(sizeof(struct hate2d_state));
   if (!gbl_state) {
     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                 "Failed to allocate memory for global state: %s\n", SDL_GetError());
+                 "Failed to allocate memory for global state: %s\n",
+                 SDL_GetError());
     return false;
   }
 
