@@ -4,7 +4,8 @@
 # Building from source
 
 ## Dependencies
-`note`: If you don't have any of these deps, it will compile they automatically for you(expect by ruby), so don't worry.
+> [!NOTE]
+> If you don't have any of these deps, it will compile they automatically for you (expect for ruby), so don't worry.
 
 - `Ruby` for buildscript.
 - `gcc or clang` for building.
@@ -15,7 +16,9 @@
 
 ## Build & Run
 - Well, to build it, you just need to run this command below:
-- `note`: Use --help to see all commands.
+
+> [!TIP]
+> Use --help to see all commands.
 
 ```bash
 ruby build.rb --run
