@@ -8,17 +8,19 @@ end
 def help()
   puts "hate2d buildscript"
   puts
-  puts "--run    or -r:  Compile and run the project."
-  puts "--termux or -t:  Compiles the project fixing termux problems."
-  puts "--asan   or -as: Compiles with Address Sanitizer Enable."
-  puts "--gdb    or -g:  If used with --run, will run with GNU Debugger, use this to debugging."
-  puts "--help   or -h:  Shows help."
+  puts "--run     or -r:  Compiles and run executables."
+  puts "--install or -i:  Compiles and installs executable."
+  puts "--termux  or -t:  Compiles the executable fixing termux problems."
+  puts "--asan    or -as: Compiles with Address Sanitizer Enable."
+  puts "--gdb     or -g:  If used with --run, will run with GNU Debugger, use this to debugging."
+  puts "--help    or -h:  Shows help."
 end
 
 option_termux = false
 option_run = false
 option_asan = false
 option_gdb = false
+option_install = false
 
 ARGV.each do |arg|
   case arg
@@ -30,6 +32,8 @@ ARGV.each do |arg|
       option_asan = true
     when "--gdb", "-g"
       option_gdb = true
+    when "--install", "-i"
+      option_install = true
     when "--help", "-h"
       help
       exit 1
@@ -50,8 +54,11 @@ run(
 )
 run("cmake --build build")
 
-if option_run
+if option_install
+  run("cmake --install build")
+end
 
+if option_run
   args = [ "test" ].join(" ")
 
   if not option_termux

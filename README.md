@@ -20,3 +20,9 @@
 ```bash
 ruby build.rb --run
 ```
+
+## Build & Install
+- It will install the executable (`hate2d`) in `$PREFIX/usr/bin`
+```bash
+ruby build.rb --install
+```
