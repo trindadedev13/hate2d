@@ -6,11 +6,34 @@ end
 
 function hate2d.draw()
   hate2d.graphics.clear(hate2d.color.BLACK)
-  hate2d.graphics.draw_text("Hello, world!", w / 2, h / 2, hate2d.color.WHITE)
-  local myrect = {10, 10, 200, 200}
-  hate2d.graphics.fill_rect(myrect, hate2d.color.WHITE)
 
+  local startX = w / 2
+  local startY = 50
+  local spacing = 40
+
+  -- hello world text
+  hate2d.graphics.draw_text("Hello, world!", startX, startY, hate2d.color.WHITE)
+  startY = startY + spacing
+
+  -- outlined rect
+  hate2d.graphics.draw_rect({10, startY, 200, 200}, hate2d.color.RED)
+  startY = startY + 200 + 10
+
+  -- filled rect
+  hate2d.graphics.fill_rect({10, startY, 200, 200}, hate2d.color.GREEN)
+  startY = startY + 200 + 10
+
+  -- red pixels
   for i = 1, 10 do
-    hate2d.graphics.draw_pixel(20+i, 300, hate2d.color.RED)
+    hate2d.graphics.draw_pixel(20 + i, startY, hate2d.color.RED)
   end
+  startY = startY + 20
+
+  -- circle outlined
+  hate2d.graphics.draw_circle(200, startY + 100, 100, hate2d.color.BLUE)
+  startY = startY + 200 + 10
+
+  -- circle filled
+  hate2d.graphics.fill_circle(400, startY + 100, 100, hate2d.color.WHITE)
+
 end
