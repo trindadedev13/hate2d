@@ -53,6 +53,18 @@ int hate2d_lua_graphics_fill_rect(lua_State* L) {
   return 0;
 }
 
+int hate2d_lua_graphics_draw_pixel(lua_State* L) {
+  int x = luaL_checkinteger(L, 1);
+  int y = luaL_checkinteger(L, 2);
+
+  uint8_t r, g, b, a;
+  hate2d_lua_getcolor(L, 3, &r, &g, &b, &a);
+
+  SDL_SetRenderDrawColor(gbl_state->renderer, r, g, b, a);
+  SDL_RenderPoint(gbl_state->renderer, x, y);
+  return 0;
+}
+
 int hate2d_lua_graphics_clear(lua_State* L) {
   uint8_t r, g, b, a;
   hate2d_lua_getcolor(L, 1, &r, &g, &b, &a);
@@ -76,6 +88,9 @@ void hate2d_lua_graphics_register(lua_State* L) {
 
   lua_pushcfunction(L, hate2d_lua_graphics_fill_rect);
   lua_setfield(L, -2, "fill_rect");
+
+  lua_pushcfunction(L, hate2d_lua_graphics_draw_pixel);
+  lua_setfield(L, -2, "draw_pixel");
 
   hate2d_lua_iend(L, "graphics");
 }
