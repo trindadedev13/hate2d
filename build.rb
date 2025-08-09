@@ -1,8 +1,18 @@
-require 'fileutils'
+require "fileutils"
 
 def run(*cmd)
    puts *cmd
    system(*cmd) or abort("Failed #{cmd.join('')}")
+end
+
+def help()
+  puts "hate2d buildscript"
+  puts
+  puts "--run    or -r:  Compile and run the project."
+  puts "--termux or -t:  Compiles the project fixing termux problems."
+  puts "--asan   or -as: Compiles with Address Sanitizer Enable."
+  puts "--gdb    or -g:  If used with --run, will run with GNU Debugger, use this to debugging."
+  puts "--help   or -h:  Shows help."
 end
 
 option_termux = false
@@ -20,6 +30,13 @@ ARGV.each do |arg|
       option_asan = true
     when "--gdb", "-g"
       option_gdb = true
+    when "--help", "-h"
+      help
+      exit 1
+    else
+      puts "Arg #{arg} is not a valid command."
+      puts "use --help to see all commands"
+      exit 1
   end
 end
 
