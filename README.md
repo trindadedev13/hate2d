@@ -18,7 +18,7 @@
 - Well, to build it, you just need to run this command below:
 
 > [!TIP]
-> Use --help to see all commands.
+> Use `--help` to see all commands.
 
 ```bash
 ruby build.rb --run
