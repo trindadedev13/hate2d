@@ -34,12 +34,15 @@ run(
 run("cmake --build build")
 
 if option_run
+
+  args = [ "test" ].join(" ")
+
   if not option_termux
-    run("chmod +x build/hate2d")
+    run("chmod +x build/hate2d #{args}")
     if option_gdb
-      run("gdb ./build/hate2d")
+      run("gdb ./build/hate2d --args ./build/hate2d #{args}")
     else
-      run("./build/hate2d")
+      run("./build/hate2d #{args}")
     end
   else
     HOME = ENV["HOME"]
@@ -67,9 +70,9 @@ if option_run
     File.chmod(0755, exec_path)
   
     if option_gdb
-      system("gdb #{exec_path}")
+      system("gdb #{exec_path} --args #{exec_path} #{args}")
     else
-      system(exec_path)
+      system("#{exec_path} #{args}")
     end
     cleanup(x11_pid)
   end

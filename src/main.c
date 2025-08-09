@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <SDL3/SDL.h>
 
@@ -8,15 +9,36 @@
 #include "hate2d/lua.h"
 #include "hate2d/state.h"
 
-int main() {
+int main(int argc, char* argv[]) {
+  if (argc < 2) {
+    fprintf(stderr, "Error: Please provide the path of your hate2d project containing the src/main.c\n");
+    return 1;
+  }
+
+  /**
+   * !!FIXME!!
+   * very basic ass way to do it
+   * if user type project/ instead just project it will just break the logic of it
+   * so ahh
+   * we need do some verifications
+   * but im lazy rn
+   * if someone want, go ahead
+   */
+  char* path = argv[1];
+  char* main_file_path = malloc(strlen(path) + strlen("/src/main.lua") + 1);
+  strcpy(main_file_path, path);
+  strcat(main_file_path, "/src/main.lua");
+
   if (!hate2d_state_initgbl()) {
     return 1;
   }
   hate2d_lua_register_bindings(gbl_state->lua_state);
 
-  if (luaL_dofile(gbl_state->lua_state, "main.lua")) {
+  if (luaL_dofile(gbl_state->lua_state, main_file_path)) {
     fprintf(stderr, "Error: %s\n", lua_tostring(gbl_state->lua_state, -1));
   }
+
+  free(main_file_path);
 
   hate2d_lua_call_hate2d_func(gbl_state->lua_state, "load");
 
