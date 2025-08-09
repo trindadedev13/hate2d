@@ -16,11 +16,13 @@ function hate2d.draw()
   startY = startY + spacing
 
   -- outlined rect
-  hate2d.graphics.draw_rect({10, startY, 200, 200}, hate2d.color.RED)
+  -- you can just use "outlined" instead the const
+  hate2d.graphics.draw_rect(hate2d.graphics.STYLE_OUTLINED, {10, startY, 200, 200}, hate2d.color.RED)
   startY = startY + 200 + 10
 
   -- filled rect
-  hate2d.graphics.fill_rect({10, startY, 200, 200}, hate2d.color.GREEN)
+  -- you can just use "filled" instead the const
+  hate2d.graphics.draw_rect(hate2d.graphics.STYLE_FILLED, {10, startY, 200, 200}, hate2d.color.GREEN)
   startY = startY + 200 + 10
 
   -- red pixels
@@ -30,10 +32,12 @@ function hate2d.draw()
   startY = startY + 20
 
   -- circle outlined
-  hate2d.graphics.draw_circle(200, startY + 100, 100, hate2d.color.BLUE)
+  -- you can just use "outlined" instead the const
+  hate2d.graphics.draw_circle(hate2d.graphics.STYLE_OUTLINED, 200, startY + 100, 100, hate2d.color.BLUE)
   startY = startY + 200 + 10
 
   -- circle filled
-  hate2d.graphics.fill_circle(400, startY + 100, 100, hate2d.color.WHITE)
+  -- you can just use "filled" instead the const
+  hate2d.graphics.draw_circle(hate2d.graphics.STYLE_FILLED, 400, startY + 100, 100, hate2d.color.WHITE)
 
 end

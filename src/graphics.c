@@ -29,28 +29,20 @@ int hate2d_lua_graphics_draw_text(lua_State* L) {
 }
 
 int hate2d_lua_graphics_draw_rect(lua_State* L) {
+  const char* type = luaL_checkstring(L, 1);
   float x, y, w, h;
-  hate2d_lua_getrect(L, 1, &x, &y, &w, &h);
+  hate2d_lua_getrect(L, 2, &x, &y, &w, &h);
 
   uint8_t r, g, b, a;
-  hate2d_lua_getcolor(L, 2, &r, &g, &b, &a);
+  hate2d_lua_getcolor(L, 3, &r, &g, &b, &a);
 
   SDL_SetRenderDrawColor(gbl_state->renderer, r, g, b, a);
   SDL_FRect rect = { x, y, w, h };
-  SDL_RenderRect(gbl_state->renderer, &rect);
-  return 0;
-}
-
-int hate2d_lua_graphics_fill_rect(lua_State* L) {
-  float x, y, w, h;
-  hate2d_lua_getrect(L, 1, &x, &y, &w, &h);
-
-  uint8_t r, g, b, a;
-  hate2d_lua_getcolor(L, 2, &r, &g, &b, &a);
-
-  SDL_SetRenderDrawColor(gbl_state->renderer, r, g, b, a);
-  SDL_FRect rect = { x, y, w, h };
-  SDL_RenderFillRect(gbl_state->renderer, &rect);
+  if (strcmp(type, "fill") == 0) {
+    SDL_RenderFillRect(gbl_state->renderer, &rect);
+  } else {
+    SDL_RenderRect(gbl_state->renderer, &rect);
+  }
   return 0;
 }
 
@@ -67,29 +59,19 @@ int hate2d_lua_graphics_draw_pixel(lua_State* L) {
 }
 
 int hate2d_lua_graphics_draw_circle(lua_State* L) {
-  int cx = luaL_checkinteger(L, 1);
-  int cy = luaL_checkinteger(L, 2);
-  int radius = luaL_checkinteger(L, 3);
+  const char* type = luaL_checkstring(L, 1);
+  int cx = luaL_checkinteger(L, 2);
+  int cy = luaL_checkinteger(L, 3);
+  int radius = luaL_checkinteger(L, 4);
   uint8_t r, g, b, a;
-  hate2d_lua_getcolor(L, 4, &r, &g, &b, &a);
+  hate2d_lua_getcolor(L, 5, &r, &g, &b, &a);
 
   struct hate2d_circle* points = hate2d_circle_new();
-  hate2d_circle_outlined_points(points, cx, cy, radius);
-
-  SDL_SetRenderDrawColor(gbl_state->renderer, r, g, b, a);
-  SDL_RenderPoints(gbl_state->renderer, points->spoints, points->size);
-  return 0;
-}
-
-int hate2d_lua_graphics_fill_circle(lua_State* L) {
-  int cx = luaL_checkinteger(L, 1);
-  int cy = luaL_checkinteger(L, 2);
-  int radius = luaL_checkinteger(L, 3);
-  uint8_t r, g, b, a;
-  hate2d_lua_getcolor(L, 4, &r, &g, &b, &a);
-
-  struct hate2d_circle* points = hate2d_circle_new();
-  hate2d_circle_filled_points(points, cx, cy, radius);
+  if (strcmp(type, "fill") == 0) {
+    hate2d_circle_filled_points(points, cx, cy, radius);
+  } else {
+    hate2d_circle_outlined_points(points, cx, cy, radius);
+  }
 
   SDL_SetRenderDrawColor(gbl_state->renderer, r, g, b, a);
   SDL_RenderPoints(gbl_state->renderer, points->spoints, points->size);
@@ -117,17 +99,17 @@ void hate2d_lua_graphics_register(lua_State* L) {
   lua_pushcfunction(L, hate2d_lua_graphics_draw_rect);
   lua_setfield(L, -2, "draw_rect");
 
-  lua_pushcfunction(L, hate2d_lua_graphics_fill_rect);
-  lua_setfield(L, -2, "fill_rect");
-
   lua_pushcfunction(L, hate2d_lua_graphics_draw_pixel);
   lua_setfield(L, -2, "draw_pixel");
 
   lua_pushcfunction(L, hate2d_lua_graphics_draw_circle);
   lua_setfield(L, -2, "draw_circle");
 
-  lua_pushcfunction(L, hate2d_lua_graphics_fill_circle);
-  lua_setfield(L, -2, "fill_circle");
+  lua_pushstring(L, "filled");
+  lua_setfield(L, -2, "STYLE_FILLED");
+
+  lua_pushstring(L, "outlined");
+  lua_setfield(L, -2, "STYLE_OUTLINED");
 
   hate2d_lua_iend(L, "graphics");
 }
