@@ -25,7 +25,7 @@ struct hate2d_circle* hate2d_circle_new() {
   return it;
 }
 
-void hate2d_circle_delete(struct hate2d_circle* self) {
+void hate2d_circle_destroy(struct hate2d_circle* self) {
   if (!self) return;
   if (!self->spoints) {
     free(self);
@@ -44,7 +44,7 @@ void hate2d_circle_add(struct hate2d_circle* self, float x, float y) {
     if (!new_spoints) {
       SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
                    "Failed to reallocate memory for SDL_FPoint array");
-      hate2d_circle_delete(self);
+      hate2d_circle_destroy(self);
       return;
     }
     self->spoints = new_spoints;

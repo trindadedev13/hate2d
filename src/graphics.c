@@ -76,7 +76,7 @@ int hate2d_lua_graphics_draw_circle(lua_State* L) {
   SDL_SetRenderDrawColor(gbl_state->renderer, r, g, b, a);
   SDL_RenderPoints(gbl_state->renderer, points->spoints, points->size);
 
-  hate2d_circle_delete(points);
+  hate2d_circle_destroy(points);
   return 0;
 }
 

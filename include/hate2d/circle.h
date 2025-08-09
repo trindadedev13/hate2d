@@ -13,7 +13,7 @@ struct hate2d_circle {
 
 struct hate2d_circle* hate2d_circle_new();
 
-void hate2d_circle_delete(struct hate2d_circle*);
+void hate2d_circle_destroy(struct hate2d_circle*);
 
 void hate2d_circle_add(struct hate2d_circle*, float, float);
 
