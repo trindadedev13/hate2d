@@ -27,6 +27,32 @@ int hate2d_lua_graphics_draw_text(lua_State* L) {
   return 0;
 }
 
+int hate2d_lua_graphics_draw_rect(lua_State* L) {
+  float x, y, w, h;
+  hate2d_lua_getrect(L, 1, &x, &y, &w, &h);
+
+  uint8_t r, g, b, a;
+  hate2d_lua_getcolor(L, 2, &r, &g, &b, &a);
+
+  SDL_SetRenderDrawColor(gbl_state->renderer, r, g, b, a);
+  SDL_FRect rect = { x, y, w, h };
+  SDL_RenderRect(gbl_state->renderer, &rect);
+  return 0;
+}
+
+int hate2d_lua_graphics_fill_rect(lua_State* L) {
+  float x, y, w, h;
+  hate2d_lua_getrect(L, 1, &x, &y, &w, &h);
+
+  uint8_t r, g, b, a;
+  hate2d_lua_getcolor(L, 2, &r, &g, &b, &a);
+
+  SDL_SetRenderDrawColor(gbl_state->renderer, r, g, b, a);
+  SDL_FRect rect = { x, y, w, h };
+  SDL_RenderFillRect(gbl_state->renderer, &rect);
+  return 0;
+}
+
 int hate2d_lua_graphics_clear(lua_State* L) {
   uint8_t r, g, b, a;
   hate2d_lua_getcolor(L, 1, &r, &g, &b, &a);
@@ -44,6 +70,12 @@ void hate2d_lua_graphics_register(lua_State* L) {
 
   lua_pushcfunction(L, hate2d_lua_graphics_clear);
   lua_setfield(L, -2, "clear");
+
+  lua_pushcfunction(L, hate2d_lua_graphics_draw_rect);
+  lua_setfield(L, -2, "draw_rect");
+
+  lua_pushcfunction(L, hate2d_lua_graphics_fill_rect);
+  lua_setfield(L, -2, "fill_rect");
 
   hate2d_lua_iend(L, "graphics");
 }

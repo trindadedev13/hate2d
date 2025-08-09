@@ -43,6 +43,31 @@ void hate2d_lua_getcolor(lua_State* L,
   lua_pop(L, 1);
 }
 
+void hate2d_lua_getrect(lua_State* L,
+                         int wh,
+                         float* x,
+                         float* y,
+                         float* w,
+                         float* h) {
+  luaL_checktype(L, wh, LUA_TTABLE);
+
+  lua_rawgeti(L, wh, 1);
+  *x = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+
+  lua_rawgeti(L, wh, 2);
+  *y = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+
+  lua_rawgeti(L, wh, 3);
+  *w = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+
+  lua_rawgeti(L, wh, 4);
+  *h = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+}
+
 bool hate2d_lua_call_hate2d_func(lua_State* L, char* func_name) {
   lua_getglobal(L, "hate2d");  // get hate2d table
   if (!lua_istable(L, -1)) {

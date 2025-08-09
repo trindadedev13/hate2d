@@ -13,10 +13,17 @@ void hate2d_lua_iend(lua_State*, char*);
 
 void hate2d_lua_getcolor(lua_State*,
                          int,
-                         uint8_t*,
-                         uint8_t*,
-                         uint8_t*,
-                         uint8_t*);
+                         uint8_t* r,
+                         uint8_t* g,
+                         uint8_t* b,
+                         uint8_t* a);
+
+void hate2d_lua_getrect(lua_State*,
+                        int,
+                        float* x,
+                        float* y,
+                        float* w,
+                        float* h);
 
 /**
  * calls a function like:
