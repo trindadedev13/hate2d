@@ -5,20 +5,19 @@
 
 #include <SDL3/SDL.h>
 
-struct hate2d_point_arr {
+struct hate2d_circle {
   SDL_FPoint* spoints;
   size_t size;
   size_t capacity;
 };
 
-struct hate2d_point_arr* hate2d_point_arr_new();
+struct hate2d_circle* hate2d_circle_new();
 
-void hate2d_point_arr_delete(struct hate2d_point_arr*);
+void hate2d_circle_delete(struct hate2d_circle*);
 
-void hate2d_point_arr_add(struct hate2d_point_arr*, float, float);
+void hate2d_circle_add(struct hate2d_circle*, float, float);
 
-void hate2d_point_arr_circle_points(struct hate2d_point_arr*, int, int, int);
-
-void hate2d_point_arr_filled_circle_points(struct hate2d_point_arr*, int, int, int);
+void hate2d_circle_outlined_points(struct hate2d_circle*, int, int, int);
+void hate2d_circle_filled_points(struct hate2d_circle*, int, int, int);
 
 #endif

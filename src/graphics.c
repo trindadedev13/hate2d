@@ -73,8 +73,8 @@ int hate2d_lua_graphics_draw_circle(lua_State* L) {
   uint8_t r, g, b, a;
   hate2d_lua_getcolor(L, 4, &r, &g, &b, &a);
 
-  struct hate2d_point_arr* points = hate2d_point_arr_new();
-  hate2d_point_arr_circle_points(points, cx, cy, radius);
+  struct hate2d_circle* points = hate2d_circle_new();
+  hate2d_circle_outlined_points(points, cx, cy, radius);
 
   SDL_SetRenderDrawColor(gbl_state->renderer, r, g, b, a);
   SDL_RenderPoints(gbl_state->renderer, points->spoints, points->size);
@@ -88,8 +88,8 @@ int hate2d_lua_graphics_fill_circle(lua_State* L) {
   uint8_t r, g, b, a;
   hate2d_lua_getcolor(L, 4, &r, &g, &b, &a);
 
-  struct hate2d_point_arr* points = hate2d_point_arr_new();
-  hate2d_point_arr_filled_circle_points(points, cx, cy, radius);
+  struct hate2d_circle* points = hate2d_circle_new();
+  hate2d_circle_filled_points(points, cx, cy, radius);
 
   SDL_SetRenderDrawColor(gbl_state->renderer, r, g, b, a);
   SDL_RenderPoints(gbl_state->renderer, points->spoints, points->size);

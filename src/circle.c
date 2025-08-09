@@ -5,8 +5,8 @@
 
 #include <SDL3/SDL.h>
 
-struct hate2d_point_arr* hate2d_point_arr_new() {
-  struct hate2d_point_arr* it = malloc(sizeof(struct hate2d_point_arr));
+struct hate2d_circle* hate2d_circle_new() {
+  struct hate2d_circle* it = malloc(sizeof(struct hate2d_circle));
   if (!it) {
     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
                  "Failed to create hate2d point array");
@@ -25,7 +25,7 @@ struct hate2d_point_arr* hate2d_point_arr_new() {
   return it;
 }
 
-void hate2d_point_arr_delete(struct hate2d_point_arr* self) {
+void hate2d_circle_delete(struct hate2d_circle* self) {
   if (!self) return;
   if (!self->spoints) {
     free(self);
@@ -37,14 +37,14 @@ void hate2d_point_arr_delete(struct hate2d_point_arr* self) {
   free(self);
 }
 
-void hate2d_point_arr_add(struct hate2d_point_arr* self, float x, float y) {
+void hate2d_circle_add(struct hate2d_circle* self, float x, float y) {
   if (self->size == self->capacity) {
     self->capacity *= 2;
     SDL_FPoint* new_spoints = realloc(self->spoints, self->capacity * sizeof(SDL_FPoint));
     if (!new_spoints) {
       SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
                    "Failed to reallocate memory for SDL_FPoint array");
-      hate2d_point_arr_delete(self);
+      hate2d_circle_delete(self);
       return;
     }
     self->spoints = new_spoints;
@@ -56,20 +56,20 @@ void hate2d_point_arr_add(struct hate2d_point_arr* self, float x, float y) {
 
 // Thanks for
 // https://discourse.libsdl.org/t/query-how-do-you-draw-a-circle-in-sdl2-sdl2/33379
-void hate2d_point_arr_circle_points(struct hate2d_point_arr* self, int centerX, int centerY, int radius) {
+void hate2d_circle_outlined_points(struct hate2d_circle* self, int centerX, int centerY, int radius) {
   int x = radius;
   int y = 0;
   int err = 0;
 
   while (x >= y) {
-    hate2d_point_arr_add(self, centerX + x, centerY + y);
-    hate2d_point_arr_add(self, centerX + y, centerY + x);
-    hate2d_point_arr_add(self, centerX - y, centerY + x);
-    hate2d_point_arr_add(self, centerX - x, centerY + y);
-    hate2d_point_arr_add(self, centerX - x, centerY - y);
-    hate2d_point_arr_add(self, centerX - y, centerY - x);
-    hate2d_point_arr_add(self, centerX + y, centerY - x);
-    hate2d_point_arr_add(self, centerX + x, centerY - y);
+    hate2d_circle_add(self, centerX + x, centerY + y);
+    hate2d_circle_add(self, centerX + y, centerY + x);
+    hate2d_circle_add(self, centerX - y, centerY + x);
+    hate2d_circle_add(self, centerX - x, centerY + y);
+    hate2d_circle_add(self, centerX - x, centerY - y);
+    hate2d_circle_add(self, centerX - y, centerY - x);
+    hate2d_circle_add(self, centerX + y, centerY - x);
+    hate2d_circle_add(self, centerX + x, centerY - y);
 
     y += 1;
     if (err <= 0) {
@@ -81,11 +81,11 @@ void hate2d_point_arr_circle_points(struct hate2d_point_arr* self, int centerX, 
   }
 }
 
-void hate2d_point_arr_filled_circle_points(struct hate2d_point_arr* self, int centerX, int centerY, int radius) {
+void hate2d_circle_filled_points(struct hate2d_circle* self, int centerX, int centerY, int radius) {
   for (int y = -radius; y <= radius; y++) {
     int dx = (int)sqrt(radius * radius - y * y);
     for (int x = -dx; x <= dx; x++) {
-      hate2d_point_arr_add(self, centerX + x, centerY + y);
+      hate2d_circle_add(self, centerX + x, centerY + y);
     }
   }
 }
