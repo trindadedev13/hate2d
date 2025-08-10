@@ -5,8 +5,6 @@
 #include "hate2d/lua.h"
 #include "hate2d/window.h"
 
-#define ASSETS_ROOT assets
-
 struct hate2d_state {
   struct hate2d_window* window;  // main window
   struct hate2d_fonts* fonts;    // all fonts
