@@ -8,6 +8,7 @@ end
 def help()
   puts "hate2d buildscript"
   puts
+  puts "--build   or -b:  Compiles"
   puts "--run     or -r:  Compiles and run executables."
   puts "--install or -i:  Compiles and installs executable."
   puts "--termux  or -t:  Compiles the executable fixing termux problems."
@@ -16,6 +17,7 @@ def help()
   puts "--help    or -h:  Shows help."
 end
 
+option_build = false
 option_termux = false
 option_run = false
 option_asan = false
@@ -24,6 +26,8 @@ option_install = false
 
 ARGV.each do |arg|
   case arg
+    when "--build", "-b"
+      option_build = true
     when "--termux", "-t"
       option_termux = true
     when "--run", "-r"
@@ -44,15 +48,17 @@ ARGV.each do |arg|
   end
 end
 
-FileUtils.mkdir_p("build")
+if option_build
+  FileUtils.mkdir_p("build")
 
-install_pr = ENV["PREFIX"]
-run(
-    "cmake -B build -S . " \
-    "-DASAN=#{option_asan ? "ON" : "OFF"} " \
-    "-DCMAKE_INSTALL_PREFIX=#{install_pr} "
-)
-run("cmake --build build")
+  install_pr = ENV["PREFIX"]
+  run(
+      "cmake -B build -S . " \
+      "-DASAN=#{option_asan ? "ON" : "OFF"} " \
+      "-DCMAKE_INSTALL_PREFIX=#{install_pr} "
+  )
+  run("cmake --build build")
+end
 
 if option_install
   run("cmake --install build")
