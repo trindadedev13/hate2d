@@ -39,5 +39,9 @@ function hate2d.draw()
   -- circle filled
   -- you can just use "filled" instead the const
   hate2d.graphics.draw_circle(hate2d.graphics.STYLE_FILLED, 400, startY + 100, 100, hate2d.color.WHITE)
+  startY = startY + 200 + 10
 
+  -- image
+  local img = hate2d.Image.new("background.png", 500, startY + 100, 300, 300)
+  hate2d.graphics.draw_image(img)
 end

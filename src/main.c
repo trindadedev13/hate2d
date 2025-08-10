@@ -11,25 +11,25 @@
 
 int main(int argc, char* argv[]) {
   if (argc < 2) {
-    fprintf(stderr, "Error: Please provide the path of your hate2d project containing the src/main.c\n");
+    fprintf(stderr,
+            "Error: Please provide the path of your hate2d project containing "
+            "the src/main.c\n");
     return 1;
   }
 
   /**
    * !!FIXME!!
    * very basic ass way to do it
-   * if user type project/ instead just project it will just break the logic of it
-   * so ahh
-   * we need do some verifications
-   * but im lazy rn
-   * if someone want, go ahead
+   * if user type project/ instead just project it will just break the logic of
+   * it so ahh we need do some verifications but im lazy rn if someone want, go
+   * ahead
    */
   char* path = argv[1];
   char* main_file_path = malloc(strlen(path) + strlen("/src/main.lua") + 1);
   strcpy(main_file_path, path);
   strcat(main_file_path, "/src/main.lua");
 
-  if (!hate2d_state_initgbl()) {
+  if (!hate2d_state_initgbl(path)) {
     return 1;
   }
   hate2d_lua_register_bindings(gbl_state->lua_state);

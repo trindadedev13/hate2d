@@ -11,7 +11,7 @@
 
 struct hate2d_state* gbl_state = NULL;
 
-bool hate2d_state_initgbl() {
+bool hate2d_state_initgbl(char* project_root) {
   // initialize sdl video
   if (!SDL_Init(SDL_INIT_VIDEO)) {
     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize SDL: %s\n",
@@ -59,6 +59,8 @@ bool hate2d_state_initgbl() {
   luaL_openlibs(gbl_state->lua_state);
 
   gbl_state->running = true;
+
+  gbl_state->project_root = project_root;
 
   // creates a empty global table
   // hate2d = {}
