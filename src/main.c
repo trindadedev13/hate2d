@@ -17,13 +17,7 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  /**
-   * !!FIXME!!
-   * very basic ass way to do it
-   * if user type project/ instead just project it will just break the logic of
-   * it so ahh we need do some verifications but im lazy rn if someone want, go
-   * ahead
-   */
+
   char* path = argv[1];
   if (path[strlen(path) - 1] == '/') {
     path[strlen(path)] = '\0';
