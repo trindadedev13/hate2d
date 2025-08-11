@@ -7,6 +7,7 @@
 #include <SDL3/SDL.h>
 
 #include "hate2d/circle.h"
+#include "hate2d/image.h"
 #include "hate2d/lua.h"
 #include "hate2d/state.h"
 #include "hate2d/text.h"
@@ -37,7 +38,7 @@ int hate2d_lua_graphics_draw_rect(lua_State* L) {
   hate2d_lua_getcolor(L, 3, &r, &g, &b, &a);
 
   SDL_SetRenderDrawColor(gbl_state->renderer, r, g, b, a);
-  SDL_FRect rect = { x, y, w, h };
+  SDL_FRect rect = {x, y, w, h};
   if (strcmp(type, "fill") == 0) {
     SDL_RenderFillRect(gbl_state->renderer, &rect);
   } else {
@@ -75,6 +76,18 @@ int hate2d_lua_graphics_draw_circle(lua_State* L) {
 
   SDL_SetRenderDrawColor(gbl_state->renderer, r, g, b, a);
   SDL_RenderPoints(gbl_state->renderer, points->spoints, points->size);
+
+  hate2d_circle_destroy(points);
+  return 0;
+}
+
+int hate2d_lua_graphics_draw_image(lua_State* L) {
+  struct hate2d_image** udata = luaL_checkudata(L, 1, "hate2d_image_mt");
+  if (!udata || !*udata) {
+    return luaL_error(L, "Expected hate2d_image userdata");
+  }
+
+  hate2d_image_draw(*udata);
   return 0;
 }
 
@@ -90,6 +103,14 @@ int hate2d_lua_graphics_clear(lua_State* L) {
 void hate2d_lua_graphics_register(lua_State* L) {
   hate2d_lua_ibegin(L);
 
+  // consts
+  lua_pushstring(L, "filled");
+  lua_setfield(L, -2, "STYLE_FILLED");
+
+  lua_pushstring(L, "outlined");
+  lua_setfield(L, -2, "STYLE_OUTLINED");
+
+  // functions
   lua_pushcfunction(L, hate2d_lua_graphics_draw_text);
   lua_setfield(L, -2, "draw_text");
 
@@ -105,11 +126,8 @@ void hate2d_lua_graphics_register(lua_State* L) {
   lua_pushcfunction(L, hate2d_lua_graphics_draw_circle);
   lua_setfield(L, -2, "draw_circle");
 
-  lua_pushstring(L, "filled");
-  lua_setfield(L, -2, "STYLE_FILLED");
-
-  lua_pushstring(L, "outlined");
-  lua_setfield(L, -2, "STYLE_OUTLINED");
+  lua_pushcfunction(L, hate2d_lua_graphics_draw_image);
+  lua_setfield(L, -2, "draw_image");
 
   hate2d_lua_iend(L, "graphics");
 }

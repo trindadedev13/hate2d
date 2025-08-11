@@ -1,7 +1,7 @@
 #include "hate2d/circle.h"
 
-#include <stdlib.h>
 #include <math.h>
+#include <stdlib.h>
 
 #include <SDL3/SDL.h>
 
@@ -25,8 +25,9 @@ struct hate2d_circle* hate2d_circle_new() {
   return it;
 }
 
-void hate2d_circle_delete(struct hate2d_circle* self) {
-  if (!self) return;
+void hate2d_circle_destroy(struct hate2d_circle* self) {
+  if (!self)
+    return;
   if (!self->spoints) {
     free(self);
     return;
@@ -40,11 +41,12 @@ void hate2d_circle_delete(struct hate2d_circle* self) {
 void hate2d_circle_add(struct hate2d_circle* self, float x, float y) {
   if (self->size == self->capacity) {
     self->capacity *= 2;
-    SDL_FPoint* new_spoints = realloc(self->spoints, self->capacity * sizeof(SDL_FPoint));
+    SDL_FPoint* new_spoints =
+        realloc(self->spoints, self->capacity * sizeof(SDL_FPoint));
     if (!new_spoints) {
       SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
                    "Failed to reallocate memory for SDL_FPoint array");
-      hate2d_circle_delete(self);
+      hate2d_circle_destroy(self);
       return;
     }
     self->spoints = new_spoints;
@@ -56,7 +58,10 @@ void hate2d_circle_add(struct hate2d_circle* self, float x, float y) {
 
 // Thanks for
 // https://discourse.libsdl.org/t/query-how-do-you-draw-a-circle-in-sdl2-sdl2/33379
-void hate2d_circle_outlined_points(struct hate2d_circle* self, int centerX, int centerY, int radius) {
+void hate2d_circle_outlined_points(struct hate2d_circle* self,
+                                   int centerX,
+                                   int centerY,
+                                   int radius) {
   int x = radius;
   int y = 0;
   int err = 0;
@@ -81,7 +86,10 @@ void hate2d_circle_outlined_points(struct hate2d_circle* self, int centerX, int 
   }
 }
 
-void hate2d_circle_filled_points(struct hate2d_circle* self, int centerX, int centerY, int radius) {
+void hate2d_circle_filled_points(struct hate2d_circle* self,
+                                 int centerX,
+                                 int centerY,
+                                 int radius) {
   for (int y = -radius; y <= radius; y++) {
     int dx = (int)sqrt(radius * radius - y * y);
     for (int x = -dx; x <= dx; x++) {

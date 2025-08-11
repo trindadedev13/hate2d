@@ -44,11 +44,11 @@ void hate2d_lua_getcolor(lua_State* L,
 }
 
 void hate2d_lua_getrect(lua_State* L,
-                         int wh,
-                         float* x,
-                         float* y,
-                         float* w,
-                         float* h) {
+                        int wh,
+                        float* x,
+                        float* y,
+                        float* w,
+                        float* h) {
   luaL_checktype(L, wh, LUA_TTABLE);
 
   lua_rawgeti(L, wh, 1);
