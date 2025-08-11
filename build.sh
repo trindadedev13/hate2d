@@ -13,6 +13,8 @@ NC='\033[0m'
 
 SPINNER_FRAMES=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
 
+echo -e "${RED} This script is not maintained by Aquiles Trindade."
+
 show_progress() {
     local current=$1
     local total=$2

@@ -65,14 +65,15 @@ if option_install
 end
 
 if option_run
-  args = [ "test" ].join(" ")
-
+  args = [ "run" ].join(" ")
   if not option_termux
-    run("chmod +x build/hate2d #{args}")
-    if option_gdb
-      run("gdb ./build/hate2d --args ./build/hate2d #{args}")
-    else
-      run("./build/hate2d #{args}")
+    run("chmod +x build/hate2d")
+    Dir.chdir("test") do
+      if option_gdb
+        run("gdb ./build/hate2d --args ./build/hate2d #{args}")
+      else
+        run("./build/hate2d #{args}")
+      end
     end
   else
     HOME = ENV["HOME"]
@@ -98,12 +99,13 @@ if option_run
     
     exec_path = File.expand_path("~/temp/c/hate2d/#{EXECUTABLE}")
     File.chmod(0755, exec_path)
-  
-    if option_gdb
-      system("gdb #{exec_path} --args #{exec_path} #{args}")
-    else
-      system("#{exec_path} #{args}")
+    Dir.chdir("test") do
+      if option_gdb
+        system("gdb #{exec_path} --args #{exec_path} #{args}")
+      else
+        system("#{exec_path} #{args}")
+      end
+      cleanup(x11_pid)
     end
-    cleanup(x11_pid)
   end
 end
