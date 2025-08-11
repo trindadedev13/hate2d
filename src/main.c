@@ -17,12 +17,13 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-
+  // expand main path based on project root path
   char* path = argv[1];
-  if (path[strlen(path) - 1] == '/') {
-    path[strlen(path)] = '\0';
+  size_t path_len = strlen(path);
+  if (path[path_len - 1] == '/') {
+    path[path_len] = '\0';
   }
-  char* main_file_path = malloc(strlen(path) + strlen("/src/main.lua") + 1);
+  char* main_file_path = malloc(path_len + strlen("/src/main.lua") + 1);
   strcpy(main_file_path, path);
   strcat(main_file_path, "/src/main.lua");
 
