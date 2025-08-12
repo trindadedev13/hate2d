@@ -5,8 +5,6 @@
 
 #include <SDL3/SDL.h>
 
-#include "hate2d/bindings.h"
-#include "hate2d/lua.h"
 #include "hate2d/state.h"
 #include "hate2d/util.h"
 
@@ -42,13 +40,12 @@ bool run(int argc, char* argv[]) {
   if (!hate2d_state_initgbl(project_root)) {
     return false;
   }
-  hate2d_lua_register_bindings(gbl_state->lua_state);
 
-  if (luaL_dofile(gbl_state->lua_state, main)) {
-    fprintf(stderr, "Error: %s\n", lua_tostring(gbl_state->lua_state, -1));
+  if (hate2d_state_run_file(main)) {
+    fprintf(stderr, "Error: %s\n", hate2d_state_getcurerr(main));
   }
 
-  hate2d_lua_call_hate2d_func(gbl_state->lua_state, "load");
+  hate2d_state_call_func(main, "load");
 
   SDL_Event e;
   while (gbl_state->running) {
@@ -57,7 +54,7 @@ bool run(int argc, char* argv[]) {
         gbl_state->running = false;
       }
     }
-    if (!hate2d_lua_call_hate2d_func(gbl_state->lua_state, "draw")) {
+    if (!hate2d_state_call_func(main, "draw")) {
       break;
     }
     SDL_RenderPresent(gbl_state->renderer);

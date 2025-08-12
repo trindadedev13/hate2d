@@ -3,15 +3,16 @@
 
 #include <stdint.h>
 
-#include "hate2d/lua.h"
+struct hate2d_color {
+  uint8_t r, g, b, a;
+};
 
-void hate2d_lua_color_add(lua_State*,
-                          char*,
-                          uint8_t,
-                          uint8_t,
-                          uint8_t,
-                          uint8_t);
+typedef void (*color_exporter_func)(void* script_state,
+                                    const char* name,
+                                    struct hate2d_color color);
 
-void hate2d_lua_color_register(lua_State*);
+struct hate2d_color hate2d_color_new(uint8_t, uint8_t, uint8_t, uint8_t);
+
+void hate2d_register_colors(void*, color_exporter_func);
 
 #endif

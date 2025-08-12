@@ -1,16 +1,34 @@
 #ifndef __HATE2D_GRAPHICS_H__
 #define __HATE2D_GRAPHICS_H__
 
-#include "hate2d/lua.h"
+#include <stdint.h>
 
-int hate2d_lua_graphics_draw_text(lua_State*);
-int hate2d_lua_graphics_draw_rect(lua_State*);
-int hate2d_lua_graphics_draw_pixel(lua_State*);
-int hate2d_lua_graphics_draw_circle(lua_State*);
-int hate2d_lua_graphics_draw_image(lua_State*);
+int hate2d_graphics_draw_text(const char*,
+                              int,
+                              int,
+                              uint8_t,
+                              uint8_t,
+                              uint8_t,
+                              uint8_t);
+int hate2d_graphics_draw_rect(const char*,
+                              float,
+                              float,
+                              float,
+                              float,
+                              uint8_t,
+                              uint8_t,
+                              uint8_t,
+                              uint8_t);
+int hate2d_graphics_draw_pixel(int, int, uint8_t, uint8_t, uint8_t, uint8_t);
+int hate2d_graphics_draw_circle(const char*,
+                                int,
+                                int,
+                                int,
+                                uint8_t,
+                                uint8_t,
+                                uint8_t,
+                                uint8_t);
 
-int hate2d_lua_graphics_clear(lua_State*);
-
-void hate2d_lua_graphics_register(lua_State*);
+int hate2d_graphics_clear(uint8_t, uint8_t, uint8_t, uint8_t);
 
 #endif

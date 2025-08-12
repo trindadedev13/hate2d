@@ -42,6 +42,6 @@ function hate2d.draw()
   startY = startY + 200 + 10
 
   -- image
-  local img = hate2d.Image.new("background.png", 500, startY + 100, 300, 300)
+  local img = hate2d.graphics.Image.new("background.png", 500, startY + 100, 300, 300)
   hate2d.graphics.draw_image(img)
 end

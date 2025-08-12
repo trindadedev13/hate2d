@@ -8,6 +8,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 
 #include "hate2d/font.h"
+#include "hate2d/lua.h"
 
 struct hate2d_state* gbl_state = NULL;
 
@@ -55,17 +56,8 @@ bool hate2d_state_initgbl(char* project_root) {
 
   SDL_SetRenderDrawBlendMode(gbl_state->renderer, SDL_BLENDMODE_BLEND);
 
-  gbl_state->lua_state = luaL_newstate();
-  luaL_openlibs(gbl_state->lua_state);
-
   gbl_state->running = true;
-
   gbl_state->project_root = project_root;
-
-  // creates a empty global table
-  // hate2d = {}
-  lua_newtable(gbl_state->lua_state);
-  lua_setglobal(gbl_state->lua_state, "hate2d");
 
   gbl_state->fonts = hate2d_fonts_loadall();
   if (gbl_state->fonts == NULL) {
@@ -74,5 +66,31 @@ bool hate2d_state_initgbl(char* project_root) {
     return false;
   }
 
+  hate2d_lua_init();
+
   return true;
+}
+
+bool hate2d_state_run_file(char* file) {
+  if (strstr(file, ".lua")) {
+    return luaL_dofile(lua_state, file);
+  }
+  // add ruby at v2👀
+  return false;
+}
+
+char* hate2d_state_getcurerr(char* file) {
+  if (strstr(file, ".lua")) {
+    return lua_tostring(lua_state, -1);
+  }
+  // add ruby at v2👀
+  return NULL;
+}
+
+bool hate2d_state_call_func(char* file, char* name) {
+  if (strstr(file, ".lua")) {
+    return hate2d_lua_call_hate2d_func(lua_state, name);
+  }
+  // add ruby at v2👀
+  return NULL;
 }

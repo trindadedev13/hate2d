@@ -5,7 +5,6 @@
 
 #include <SDL3/SDL.h>
 
-#include "hate2d/lua.h"
 #include "hate2d/state.h"
 
 struct hate2d_window* hate2d_window_create(char* title, int w, int h) {
@@ -41,21 +40,4 @@ void hate2d_window_destroy(struct hate2d_window* self) {
   if (self->raw != NULL)
     SDL_DestroyWindow(self->raw);
   free(self);
-}
-
-int hate2d_lua_window_get_dimens(lua_State* L) {
-  lua_pushinteger(L, gbl_state->window->w);
-  lua_pushinteger(L, gbl_state->window->h);
-  return 2;
-}
-
-void hate2d_lua_window_register(lua_State* L) {
-  {
-    hate2d_lua_ibegin(L);
-
-    lua_pushcfunction(L, hate2d_lua_window_get_dimens);
-    lua_setfield(L, -2, "get_dimensions");
-
-    hate2d_lua_iend(L, "window");
-  }
 }
