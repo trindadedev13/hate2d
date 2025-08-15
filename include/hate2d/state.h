@@ -16,7 +16,7 @@ bool hate2d_state_initgbl(char*);
 
 // first param is always the filename
 bool hate2d_state_run_file(char*);
-const char* hate2d_state_getcurerr(char*);
-bool hate2d_state_call_func(char*, char*);
+const char* hate2d_state_getcurerr();
+bool hate2d_state_call_func(char*);
 
 #endif

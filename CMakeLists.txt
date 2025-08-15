@@ -4,7 +4,7 @@ project(hate2d)
 
 option(ASAN "Enable Address Sanitizer" OFF)
 
-add_compile_options(-Wall -Wextra -Wunused)
+#add_compile_options(-Wall -Wextra -Wunused)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -rdynamic")
 
 if(ASAN)
@@ -19,7 +19,7 @@ file(GLOB_RECURSE
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/CheckPackages.cmake)
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/CoreDeps.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Deps.cmake)
 
 # concatenate font bytes in SOURCES
 set(S ${SOURCES})
@@ -32,11 +32,12 @@ add_executable(hate2d
 
 target_include_directories(hate2d
     PUBLIC
+    ${INCLUDE}
     ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(hate2d
     PUBLIC
-    ${CORE_DEPS}
+    ${DEPS}
     m)
 
 install(TARGETS hate2d

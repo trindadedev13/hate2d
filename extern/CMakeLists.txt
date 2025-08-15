@@ -18,5 +18,3 @@ endif()
 if(NOT SDL_IMAGE_FOUND)
   add_subdirectory(SDL_image)
 endif()
-
-add_subdirectory(lua51)

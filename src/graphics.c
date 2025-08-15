@@ -8,6 +8,7 @@
 
 #include "hate2d/circle.h"
 #include "hate2d/font.h"
+#include "hate2d/ruby.h"
 #include "hate2d/state.h"
 #include "hate2d/text.h"
 
@@ -21,8 +22,7 @@ int hate2d_graphics_draw_text(struct hate2d_font* font,
                               uint8_t a) {
   struct hate2d_text* text_t = hate2d_text_new(font, text, x, y, r, g, b, a);
   if (!hate2d_text_draw(text_t)) {
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                 "Failed to draw text: %s, SDL: %s\n", text, SDL_GetError());
+    RAISE_AND_LOG("Failed to draw text: %s, SDL: %s\n", text, SDL_GetError());
     return 0;
   }
   hate2d_text_destroy(text_t);

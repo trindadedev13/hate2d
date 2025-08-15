@@ -5,11 +5,12 @@
 
 #include <SDL3/SDL.h>
 
+#include "hate2d/ruby.h"
+
 struct hate2d_circle* hate2d_circle_new() {
   struct hate2d_circle* it = malloc(sizeof(struct hate2d_circle));
   if (!it) {
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                 "Failed to create hate2d point array");
+    RAISE_AND_LOG("Failed to create hate2d point array");
     return NULL;
   }
 
@@ -17,8 +18,7 @@ struct hate2d_circle* hate2d_circle_new() {
   it->size = 0;
   it->spoints = malloc(it->capacity * sizeof(SDL_FPoint));
   if (!it->spoints) {
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                 "Failed to create SDL_FPoint array");
+    RAISE_AND_LOG("Failed to create SDL_FPoint array");
     return NULL;
   }
 
@@ -44,8 +44,7 @@ void hate2d_circle_add(struct hate2d_circle* self, float x, float y) {
     SDL_FPoint* new_spoints =
         realloc(self->spoints, self->capacity * sizeof(SDL_FPoint));
     if (!new_spoints) {
-      SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                   "Failed to reallocate memory for SDL_FPoint array");
+      RAISE_AND_LOG("Failed to reallocate memory for SDL_FPoint array");
       hate2d_circle_destroy(self);
       return;
     }

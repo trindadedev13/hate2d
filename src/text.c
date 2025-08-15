@@ -8,6 +8,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
+#include "hate2d/ruby.h"
 #include "hate2d/state.h"
 
 struct hate2d_text* hate2d_text_new(struct hate2d_font* font,
@@ -19,18 +20,17 @@ struct hate2d_text* hate2d_text_new(struct hate2d_font* font,
                                     uint8_t b,
                                     uint8_t a) {
   if (!text) {
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Invalid text to draw!\n");
+    RAISE_AND_LOG("Invalid text to draw!\n");
     return false;
   }
   if (!font) {
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Invalid font to use!\n");
+    RAISE_AND_LOG("Invalid font to use!\n");
     return false;
   }
   struct hate2d_text* it = malloc(sizeof(struct hate2d_text));
   if (!it) {
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                 "Failed to allocate memory for text: %s : %s\n", text,
-                 SDL_GetError());
+    RAISE_AND_LOG("Failed to allocate memory for text: %s : %s\n", text,
+                  SDL_GetError());
     return false;
   }
   it->text = strdup(text);
@@ -51,8 +51,7 @@ bool hate2d_text_draw(struct hate2d_text* self) {
   SDL_Surface* surface = TTF_RenderText_Blended(
       self->font->raw, self->text, strlen(self->text), self->color);
   if (!surface) {
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to render text: %s\n",
-                 SDL_GetError());
+    RAISE_AND_LOG("Failed to render text: %s\n", SDL_GetError());
     return 0;
   }
 
@@ -60,8 +59,8 @@ bool hate2d_text_draw(struct hate2d_text* self) {
   SDL_Texture* texture =
       SDL_CreateTextureFromSurface(gbl_state->renderer, surface);
   if (!texture) {
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                 "Failed to create texture from surface: %s\n", SDL_GetError());
+    RAISE_AND_LOG("Failed to create texture from surface: %s\n",
+                  SDL_GetError());
     SDL_DestroySurface(surface);
     return 0;
   }

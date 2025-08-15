@@ -23,7 +23,7 @@ char* get_main_from_str(const char* project_path, char** project_root) {
     root_copy[len - 1] = '\0';
   }
 
-  char* main = hate2d_util_str_concat(root_copy, "/src/main.lua");
+  char* main = hate2d_util_str_concat(root_copy, "/src/main.rb");
   *project_root = root_copy;
 
   return main;
@@ -31,7 +31,7 @@ char* get_main_from_str(const char* project_path, char** project_root) {
 
 bool run() {
   char* project_root = hate2d_util_get_cwd();
-  char* main = hate2d_util_str_concat(project_root, "/src/main.lua");
+  char* main = hate2d_util_str_concat(project_root, "/src/main.rb");
   if (!main) {
     fprintf(stderr, "Error: Failed to get current dir.\n");
     return false;
@@ -41,11 +41,12 @@ bool run() {
     return false;
   }
 
-  if (hate2d_state_run_file(main)) {
-    fprintf(stderr, "Error: %s\n", hate2d_state_getcurerr(main));
+  if (!hate2d_state_run_file(main)) {
+    fprintf(stderr, "Error: %s\n", hate2d_state_getcurerr());
+    return false;
   }
 
-  hate2d_state_call_func(main, "load");
+  hate2d_state_call_func("load");
 
   SDL_Event e;
   while (gbl_state->running) {
@@ -54,7 +55,7 @@ bool run() {
         gbl_state->running = false;
       }
     }
-    if (!hate2d_state_call_func(main, "draw")) {
+    if (!hate2d_state_call_func("draw")) {
       break;
     }
     SDL_RenderPresent(gbl_state->renderer);
@@ -111,7 +112,7 @@ int main(int argc, char* argv[]) {
   if (argc < 2) {
     fprintf(stderr,
             "Error: Please provide the path of your hate2d project containing "
-            "the src/main.lua\n");
+            "the src/main.rb\n");
     return 1;
   }
 
