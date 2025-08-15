@@ -9,7 +9,7 @@
 #include "hate2d/state.h"
 #include "hate2d/util.h"
 
-struct hate2d_image* hate2d_image_new(char* filename,
+struct hate2d_image* hate2d_image_new(const char* filename,
                                       int x,
                                       int y,
                                       int w,

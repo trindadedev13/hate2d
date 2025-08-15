@@ -10,7 +10,8 @@
 
 #include "hate2d/state.h"
 
-struct hate2d_text* hate2d_text_new(const char* text,
+struct hate2d_text* hate2d_text_new(struct hate2d_font* font,
+                                    const char* text,
                                     int x,
                                     int y,
                                     uint8_t r,
@@ -19,6 +20,10 @@ struct hate2d_text* hate2d_text_new(const char* text,
                                     uint8_t a) {
   if (!text) {
     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Invalid text to draw!\n");
+    return false;
+  }
+  if (!font) {
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Invalid font to use!\n");
     return false;
   }
   struct hate2d_text* it = malloc(sizeof(struct hate2d_text));
@@ -32,6 +37,7 @@ struct hate2d_text* hate2d_text_new(const char* text,
   it->x = x;
   it->y = y;
   it->color = (SDL_Color){r, g, b, a};
+  it->font = font;
   return it;
 }
 
@@ -42,9 +48,8 @@ bool hate2d_text_draw(struct hate2d_text* self) {
     return false;
 
   // text surface
-  SDL_Surface* surface =
-      TTF_RenderText_Blended(gbl_state->fonts->jetbrainsmono_regular,
-                             self->text, strlen(self->text), self->color);
+  SDL_Surface* surface = TTF_RenderText_Blended(
+      self->font->raw, self->text, strlen(self->text), self->color);
   if (!surface) {
     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to render text: %s\n",
                  SDL_GetError());
@@ -79,8 +84,14 @@ bool hate2d_text_draw(struct hate2d_text* self) {
 void hate2d_text_destroy(struct hate2d_text* self) {
   if (!self)
     return;
-  if (!self->text)
+  if (!self->font) {
+    free(self);
     return;
+  }
+  if (!self->text) {
+    free(self);
+    return;
+  }
   free(self->text);
   free(self);
 }

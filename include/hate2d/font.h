@@ -3,21 +3,24 @@
 
 #include <SDL3_ttf/SDL_ttf.h>
 
-#define FONTSIZE 35
+#define JET_FONTSIZE 35
 
 // from $ROOT/font/jetbrainsmono_regular.c
 extern unsigned char jetbrainsmono_regular_ttf[];
 extern unsigned int jetbrainsmono_regular_ttf_len;
 
-// represents the fonts used in hate2d
-struct hate2d_fonts {
-  TTF_Font* jetbrainsmono_regular;
+struct hate2d_font {
+  TTF_Font* raw;
 };
 
-// load all fonts used in hate2d
-struct hate2d_fonts* hate2d_fonts_loadall();
+// load font
+struct hate2d_font* hate2d_font_new(const char*, float);
 
-// destroys all loaded fonts "instances"
-void hate2d_fonts_destroy(struct hate2d_fonts*);
+struct hate2d_font* hate2d_font_new_from_mem(unsigned char bytes[],
+                                             unsigned int,
+                                             float);
+
+// destroys font "instance"
+void hate2d_font_destroy(struct hate2d_font*);
 
 #endif

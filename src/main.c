@@ -29,7 +29,7 @@ char* get_main_from_str(const char* project_path, char** project_root) {
   return main;
 }
 
-bool run(int argc, char* argv[]) {
+bool run() {
   char* project_root = hate2d_util_get_cwd();
   char* main = hate2d_util_str_concat(project_root, "/src/main.lua");
   if (!main) {
@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
 
   char* op = argv[1];
   if (strcmp(op, "run") == 0) {
-    return run(argc, argv);
+    return run();
   } else if (strcmp(op, "new") == 0) {
     return new(argc, argv);
   } else if (strcmp(op, "help") == 0) {

@@ -3,7 +3,10 @@
 
 #include <stdint.h>
 
-int hate2d_graphics_draw_text(const char*,
+#include "hate2d/font.h"
+
+int hate2d_graphics_draw_text(struct hate2d_font*,
+                              const char*,
                               int,
                               int,
                               uint8_t,

@@ -11,7 +11,7 @@ struct hate2d_image {
   SDL_FRect rect;
 };
 
-struct hate2d_image* hate2d_image_new(char*, int, int, int, int);
+struct hate2d_image* hate2d_image_new(const char*, int, int, int, int);
 
 bool hate2d_image_draw(struct hate2d_image*);
 

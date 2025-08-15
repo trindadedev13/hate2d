@@ -7,7 +7,6 @@
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
-#include "hate2d/font.h"
 #include "hate2d/lua.h"
 
 struct hate2d_state* gbl_state = NULL;
@@ -59,13 +58,6 @@ bool hate2d_state_initgbl(char* project_root) {
   gbl_state->running = true;
   gbl_state->project_root = project_root;
 
-  gbl_state->fonts = hate2d_fonts_loadall();
-  if (gbl_state->fonts == NULL) {
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load fonts: %s\n",
-                 SDL_GetError());
-    return false;
-  }
-
   hate2d_lua_init();
 
   return true;
@@ -79,7 +71,7 @@ bool hate2d_state_run_file(char* file) {
   return false;
 }
 
-char* hate2d_state_getcurerr(char* file) {
+const char* hate2d_state_getcurerr(char* file) {
   if (strstr(file, ".lua")) {
     return lua_tostring(lua_state, -1);
   }

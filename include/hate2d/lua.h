@@ -31,13 +31,15 @@ void hate2d_lua_getrect(lua_State*,
                         float* w,
                         float* h);
 
-/**
- * calls a function like:
- *  function hate2d.draw
- *    ...
- *  end
- */
 bool hate2d_lua_call_hate2d_func(lua_State*, char*);
+
+const char* hate2d_lua_get_path(lua_State*, int);
+
+void hate2d_lua_create_obj(lua_State*,
+                           const char*,
+                           const char*,
+                           lua_CFunction,
+                           lua_CFunction);
 
 void hate2d_lua_register_all(lua_State*);
 
@@ -49,13 +51,19 @@ void hate2d_lua_color_export_color(void*, const char*, struct hate2d_color);
 
 // ============ GRAPHICS ============= //
 void hate2d_lua_graphics_register(lua_State*);
+int hate2d_lua_graphics_clear(lua_State*);
 int hate2d_lua_graphics_draw_text(lua_State*);
 int hate2d_lua_graphics_draw_rect(lua_State*);
 int hate2d_lua_graphics_draw_pixel(lua_State*);
 int hate2d_lua_graphics_draw_circle(lua_State*);
 int hate2d_lua_graphics_draw_image(lua_State*);
-int hate2d_lua_graphics_image_new(lua_State*);
+int hate2d_lua_graphics_image_load(lua_State*);
 int hate2d_lua_graphics_image_destroy(lua_State*);
+int hate2d_lua_graphics_font_load(lua_State*);
+int hate2d_lua_graphics_font_destroy(lua_State*);
+int hate2d_lua_graphics_font_default(lua_State*);
+int hate2d_lua_graphics_font_default_index(lua_State*);
+int hate2d_lua_graphics_font_default_newindex(lua_State*);
 // ============ GRAPHICS ============= //
 
 // ============ RUNTIME ============== //

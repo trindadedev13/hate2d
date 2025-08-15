@@ -11,8 +11,13 @@ function hate2d.draw()
   local startY = 50
   local spacing = 40
 
-  -- hello world text
-  hate2d.graphics.draw_text("Hello, world!", startX, startY, hate2d.color.WHITE)
+  -- hello world text with default font
+  hate2d.graphics.draw_text("Hello, world!", startX, startY, hate2d.color.WHITE, DEFAULT_FONT)
+  startY = startY + spacing
+
+  -- minecraft text with minecraft font
+  local minecraft_font = hate2d.graphics.Font.load("minecraft_regular.ttf", 35)
+  hate2d.graphics.draw_text("Minecraft", startX, startY, hate2d.color.WHITE, minecraft_font)
   startY = startY + spacing
 
   -- outlined rect
@@ -33,15 +38,15 @@ function hate2d.draw()
 
   -- circle outlined
   -- you can just use "outlined" instead the const
-  hate2d.graphics.draw_circle(hate2d.graphics.STYLE_OUTLINED, 200, startY + 100, 100, hate2d.color.BLUE)
+  hate2d.graphics.draw_circle(hate2d.graphics.STYLE_OUTLINED, 200, startY + 100, 200, hate2d.color.BLUE)
   startY = startY + 200 + 10
 
   -- circle filled
   -- you can just use "filled" instead the const
-  hate2d.graphics.draw_circle(hate2d.graphics.STYLE_FILLED, 400, startY + 100, 100, hate2d.color.WHITE)
+  hate2d.graphics.draw_circle(hate2d.graphics.STYLE_FILLED, 400, startY + 100, 200, hate2d.color.WHITE)
   startY = startY + 200 + 10
 
   -- image
-  local img = hate2d.graphics.Image.new("background.png", 500, startY + 100, 300, 300)
+  local img = hate2d.graphics.Image.load("background.png", 500, startY + 100, 300, 300)
   hate2d.graphics.draw_image(img)
 end

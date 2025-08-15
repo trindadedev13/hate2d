@@ -7,20 +7,37 @@
 
 #include "hate2d/state.h"
 
-struct hate2d_fonts* hate2d_fonts_loadall() {
-  struct hate2d_fonts* it = malloc(sizeof(struct hate2d_fonts));
+struct hate2d_font* hate2d_font_new(const char* filename, float size) {
+  struct hate2d_font* it = malloc(sizeof(struct hate2d_font));
   if (it == NULL) {
     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                 "Failed to create hate2d_window");
+                 "Failed to create hate2d_font %s", filename);
     return NULL;
   }
 
-  SDL_IOStream* jetbrainsmono_regular_stream =
-      SDL_IOFromMem(jetbrainsmono_regular_ttf, jetbrainsmono_regular_ttf_len);
+  it->raw = TTF_OpenFont(filename, size);
+  if (it->raw == NULL) {
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load font %s: %s\n",
+                 filename, SDL_GetError());
+    return NULL;
+  }
 
-  it->jetbrainsmono_regular =
-      TTF_OpenFontIO(jetbrainsmono_regular_stream, true, FONTSIZE);
-  if (it->jetbrainsmono_regular == NULL) {
+  return it;
+}
+
+struct hate2d_font* hate2d_font_new_from_mem(unsigned char bytes[],
+                                             unsigned int bytes_len,
+                                             float size) {
+  struct hate2d_font* it = malloc(sizeof(struct hate2d_font));
+  if (it == NULL) {
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+                 "Failed to create hate2d_font %s", SDL_GetError());
+    return NULL;
+  }
+
+  SDL_IOStream* stream = SDL_IOFromMem(bytes, bytes_len);
+  it->raw = TTF_OpenFontIO(stream, true, size);
+  if (it->raw == NULL) {
     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load font: %s\n",
                  SDL_GetError());
     return NULL;
@@ -29,10 +46,10 @@ struct hate2d_fonts* hate2d_fonts_loadall() {
   return it;
 }
 
-void hate2d_fonts_destroy(struct hate2d_fonts* self) {
+void hate2d_font_destroy(struct hate2d_font* self) {
   if (self == NULL)
     return;
-  if (self->jetbrainsmono_regular != NULL)
-    TTF_CloseFont(self->jetbrainsmono_regular);
+  if (self->raw != NULL)
+    TTF_CloseFont(self->raw);
   free(self);
 }

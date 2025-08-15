@@ -6,7 +6,10 @@
 
 #include <SDL3/SDL.h>
 
+#include "hate2d/font.h"
+
 struct hate2d_text {
+  struct hate2d_font* font;
   char* text;
   int x;
   int y;
@@ -15,8 +18,14 @@ struct hate2d_text {
 
 // returns new text structure
 // expects a text, x, y, r, g, b and a
-struct hate2d_text*
-hate2d_text_new(const char*, int, int, uint8_t, uint8_t, uint8_t, uint8_t);
+struct hate2d_text* hate2d_text_new(struct hate2d_font*,
+                                    const char*,
+                                    int,
+                                    int,
+                                    uint8_t,
+                                    uint8_t,
+                                    uint8_t,
+                                    uint8_t);
 
 bool hate2d_text_draw(struct hate2d_text*);
 
