@@ -91,9 +91,9 @@ bool new(int argc, char* argv[]) {
       goto free;
       success = false;
     }
-    fprintf(f, "function hate2d.load\n\n");
+    fprintf(f, "def load()\n\n");
     fprintf(f, "end\n\n");
-    fprintf(f, "function hate2d.draw\n\n");
+    fprintf(f, "def draw()\n\n");
     fprintf(f, "end\n");
     fclose(f);
     goto free;
