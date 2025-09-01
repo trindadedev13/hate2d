@@ -28,3 +28,6 @@ ruby build.rb --run
 ```bash
 ruby build.rb --install
 ```
+
+## Community
+[![Join our Discord server!](https://invidget.switchblade.xyz/5hSStgYfru)](https://discord.gg/5hSStgYfru)
